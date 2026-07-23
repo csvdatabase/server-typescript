@@ -20,7 +20,7 @@
     "@csvdatabase/csdb": "file:vendor/csvdatabase-csdb-0.1.0.tgz"
   },
   "devDependencies": {
-    "@types/node": "^22.15.0",
+    "@types/node": "^26.1.1",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }
