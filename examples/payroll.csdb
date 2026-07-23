@@ -1,0 +1,58 @@
+--- csdb
+format: CSDB
+version: 1
+name: payroll
+tables:
+  - workers
+  - sessions
+
+--- table:workers:schema
+name: workers
+columns:
+  id: text
+  name: text
+  email: text
+required:
+  - id
+  - name
+  - email
+primary_key:
+  columns: [id]
+unique:
+  - [email]
+
+--- table:workers:data
+id,name,email
+w_001,Ada Lovelace,ada@example.com
+w_002,Grace Hopper,grace@example.com
+
+--- table:sessions:schema
+name: sessions
+columns:
+  id: text
+  worker_id: text
+  start_time: timestamp
+  end_time: timestamp
+  hourly_pay: numeric
+  metadata: json
+required:
+  - id
+  - worker_id
+  - start_time
+  - hourly_pay
+primary_key:
+  columns: [id]
+foreign_keys:
+  - name: sessions_worker_fk
+    columns: [worker_id]
+    references:
+      table: workers
+      columns: [id]
+    on_delete: restrict
+    on_update: cascade
+    relationship: worker
+
+--- table:sessions:data
+id,worker_id,start_time,end_time,hourly_pay,metadata
+s_001,w_001,2026-01-01T09:00:00Z,2026-01-01T17:00:00Z,25.00,"{""source"":""manual""}"
+s_002,w_001,2026-01-02T09:00:00Z,,25.00,"{""source"":""timer""}"

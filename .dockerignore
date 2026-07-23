@@ -1,0 +1,14 @@
+.git
+.github
+.gitignore
+.DS_Store
+.env
+node_modules
+dist
+coverage
+data
+test
+examples
+compose*.yaml
+RELEASING.md
+npm-debug.log*

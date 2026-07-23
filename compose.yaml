@@ -1,0 +1,38 @@
+name: csdb
+
+services:
+  server:
+    image: "${CSDB_IMAGE:-ghcr.io/csvdatabase/server-typescript}:${CSDB_VERSION:-latest}"
+    pull_policy: missing
+    init: true
+    restart: unless-stopped
+    read_only: true
+    user: "${CSDB_UID:-1000}:${CSDB_GID:-1000}"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      CSDB_DATA_DIR: /data
+      CSDB_MAX_BODY_BYTES: "${CSDB_MAX_BODY_BYTES:-1048576}"
+      CSDB_SHUTDOWN_TIMEOUT_MS: "${CSDB_SHUTDOWN_TIMEOUT_MS:-10000}"
+      CSDB_API_KEY: "${CSDB_API_KEY:-}"
+    ports:
+      - "${CSDB_BIND_ADDRESS:-127.0.0.1}:${CSDB_PORT:-3000}:3000"
+    volumes:
+      - type: bind
+        source: "${CSDB_DATA_PATH:-./data}"
+        target: /data
+        bind:
+          create_host_path: false
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    pids_limit: ${CSDB_PIDS_LIMIT:-128}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "${CSDB_LOG_MAX_SIZE:-10m}"
+        max-file: "${CSDB_LOG_MAX_FILES:-3}"
+    stop_grace_period: "${CSDB_STOP_GRACE_PERIOD:-15s}"

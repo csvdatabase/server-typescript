@@ -1,0 +1,7 @@
+services:
+  server:
+    image: csvdatabase/server-typescript:local
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: Dockerfile

@@ -1,0 +1,27 @@
+{
+  "name": "@csvdatabase/server-typescript",
+  "version": "0.1.0",
+  "description": "Docker-deployable JSON API for CSDB databases",
+  "type": "module",
+  "private": true,
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@csvdatabase/csdb": "file:vendor/csvdatabase-csdb-0.1.0.tgz"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
