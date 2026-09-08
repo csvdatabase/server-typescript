@@ -22,6 +22,7 @@ run() {
 if [[ "$dry" == false ]]; then command -v gh >/dev/null; gh auth status; fi
 run npm ci
 run npm version "$version" --no-git-tag-version --ignore-scripts --allow-same-version
+run npm install --save-exact --ignore-scripts "@csvdatabase/csdb@$version"
 run npm run typecheck
 run npm test
 run npm run build
