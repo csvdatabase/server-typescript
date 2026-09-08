@@ -21,34 +21,18 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
           cache: npm
-      - name: Verify release version
+      - name: Validate release
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           TARGET_COMMITISH: ${{ github.event.release.target_commitish }}
-        run: >-
-          node -e 'const fs = require("node:fs");
-          const tag = process.env.RELEASE_TAG || "";
-          const target = process.env.TARGET_COMMITISH || "";
-          const match = tag.match(/^v([0-9]+)\.([0-9]+)\.([0-9]+)$/);
-          if (!match) {
-            console.error("Release tag must look like v1.1.1, received " + tag + ".");
-            process.exit(1);
-          }
-          const version = JSON.parse(fs.readFileSync("package.json", "utf8")).version;
-          const expected = "v" + version;
-          if (tag !== expected) {
-            console.error("Release tag must be " + expected + ".");
-            process.exit(1);
-          }
-          if (match[2] === "0" && match[3] === "0" && target !== "v" + match[1]) {
-            console.error("Major release " + tag + " must target branch v" + match[1] + ", received " + target + ".");
-            process.exit(1);
-          }'
+        run: bash scripts/verify-release.sh
       - name: Install dependencies
         run: npm ci
       - name: Verify source
