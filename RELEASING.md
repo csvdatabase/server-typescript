@@ -17,7 +17,7 @@ bash scripts/release-all.sh 1.0.0 true # dry run
 bash scripts/release-all.sh 1.0.0
 ```
 
-Upsert switches to an existing branch (fast-forwarding from origin), or creates it from HEAD, and pushes it. It never resets existing history.
+Upsert switches to an existing branch (fast-forwarding from origin), or creates it from HEAD, and pushes it. It never resets existing history. The csdb-typescript npm version referenced must already be available via npm.
 
 ## First Release Setup
 
